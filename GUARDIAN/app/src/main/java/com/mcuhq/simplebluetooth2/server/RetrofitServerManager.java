@@ -18,8 +18,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitServerManager {
 
-    private static final String BASE_URL = "http://121.152.22.85:40081/"; // Real Address
-
+//    private static final String BASE_URL = "http://121.152.22.85:40081/"; // TEST Address
+    private static final String BASE_URL = "http://121.152.22.85:40080/"; // Real Address
     private static RetrofitService apiService;
 
     OkHttpClient okHttpClient = new OkHttpClient.Builder()

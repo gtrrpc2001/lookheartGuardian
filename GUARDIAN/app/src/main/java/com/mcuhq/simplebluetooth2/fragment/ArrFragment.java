@@ -378,7 +378,7 @@ public class ArrFragment extends Fragment {
                 }
 
                 // 그래프에 들어갈 데이터 저장
-                for (int i = 0; i < arrArrayData.size(); i++) {
+                for (int i = 60; i < arrArrayData.size(); i++) {
                     entries.add(new Entry((float)i, arrArrayData.get(i).floatValue()));
                 }
 
