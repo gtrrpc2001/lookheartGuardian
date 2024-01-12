@@ -53,7 +53,7 @@
     <string name="eCalValue">0 千卡</string>
     <string name="step">"步数 "</string>
     <string name="stepValue">0 步伐</string>
-    <string name="temperature">电极温度</string>
+    <string name="temperature">皮肤温度</string>
     <string name="temperatureValue">- 摄氏度</string>
     <string name="distance">步长</string>
     <string name="distanceM">距离（米）</string>

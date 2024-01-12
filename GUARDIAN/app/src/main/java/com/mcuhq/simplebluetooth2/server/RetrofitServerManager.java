@@ -2,8 +2,6 @@ package com.mcuhq.simplebluetooth2.server;
 
 import android.util.Log;
 
-import com.mcuhq.simplebluetooth2.server.model.UserProfile;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +13,9 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import com.library.lookheartLibrary.server.UserProfile;
+import com.library.lookheartLibrary.server.UserProfileManager;
 
 public class RetrofitServerManager {
 
@@ -176,12 +177,20 @@ public class RetrofitServerManager {
         executeCall(call, new APICallback<List<UserProfile>>() {
             @Override
             public void onSuccess(List<UserProfile> result) {
-                Log.e("getProfileFromAPI", String.valueOf(result.size()));
-
                 try {
+                    ArrayList<String> guardianPhoneNumber = new ArrayList<>();
+
+                    for (UserProfile userProfile : result)
+                        guardianPhoneNumber.add(userProfile.getGuardian());
+
+                    // ArrayList -> Array
+                    String[] phoneNumberArray = new String[guardianPhoneNumber.size()];
+                    guardianPhoneNumber.toArray(phoneNumberArray);
+
                     if (!result.isEmpty()) {
-                        UserProfile profile = result.get(0);
-                        callback.userData(profile);  // 콜백 호출
+                        UserProfileManager.getInstance().setUserProfile(result.get(0));
+                        UserProfileManager.getInstance().setGuardianNumbers(phoneNumberArray);
+                        callback.userData(UserProfileManager.getInstance().getUserProfile());  // 콜백 호출
                     }
                 }catch (Exception ignored) {
                     callback.onFailure(ignored);

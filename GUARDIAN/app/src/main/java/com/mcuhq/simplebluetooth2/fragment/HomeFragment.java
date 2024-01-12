@@ -54,12 +54,12 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.library.lookheartLibrary.controller.PeakController;
 import com.mcuhq.simplebluetooth2.firebase.FirebaseMessagingService;
 import com.mcuhq.simplebluetooth2.service.ForegroundService;
 import com.mcuhq.simplebluetooth2.R;
 import com.mcuhq.simplebluetooth2.server.RetrofitServerManager;
 import com.mcuhq.simplebluetooth2.viewmodel.SharedViewModel;
-import com.mcuhq.simplebluetooth2.server.model.UserProfile;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -86,6 +86,9 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+import com.library.lookheartLibrary.server.UserProfileManager;
+import com.library.lookheartLibrary.server.UserProfile;
+
 public class HomeFragment extends Fragment {
 
     /*ArrCount*/
@@ -94,6 +97,9 @@ public class HomeFragment extends Fragment {
     private int currentArrCnt = 0; // 현재 시간 기준 발생한 비정상맥박 횟수
     private int previousArrCnt = 0; // 이전에 발생한 비정상맥박 횟수
     private int arrCnt;
+    private int emergencyFlag = 0;
+    private AlertDialog emergencyDialog;
+    private View emergencyView;
     private int serverArrCnt = 0; // 화면 상단에 표시되는 arrCnt
     //endregion
 
@@ -244,6 +250,8 @@ public class HomeFragment extends Fragment {
     private SharedViewModel viewModel; // View Model var
     private AlertDialog onBackPressedDialog; // backPressed
 
+    private PeakController peakCtrl = new PeakController();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // 뷰 초기화
@@ -330,7 +338,7 @@ public class HomeFragment extends Fragment {
 
         permissionsCheck();
 
-        startService();
+//        startService();
 
         setFCM();
     }
@@ -815,7 +823,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void stopService() {
-        serviceIntent = new Intent(safeGetActivity(), ForegroundService.class);
         safeGetActivity().stopService(serviceIntent);
     }
 
@@ -849,7 +856,16 @@ public class HomeFragment extends Fragment {
     private void requestPermissions() {
         // 권한 리스트 설정
         if (Build.VERSION.SDK_INT >= 33) {
-            PERMISSIONS = new String[]{Manifest.permission.POST_NOTIFICATIONS};
+            PERMISSIONS = new String[] {
+                    Manifest.permission.POST_NOTIFICATIONS,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            };
+        } else {
+            PERMISSIONS = new String[] {
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            };
         }
 
         // 권한 요청
@@ -879,6 +895,7 @@ public class HomeFragment extends Fragment {
         createNotificationChannel();
         notificationsPermissionCheck = true;
         userDetailsEditor.putBoolean("noti", notificationsPermissionCheck);
+        startService();
     }
 
     private void askPermissions(ActivityResultLauncher<String[]> multiplePermissionLauncher) {
@@ -887,6 +904,7 @@ public class HomeFragment extends Fragment {
             multiplePermissionLauncher.launch(PERMISSIONS);
         } else {
             Log.d("PERMISSIONS", "All permissions are already granted");
+            startService();
         }
     }
 
@@ -959,30 +977,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void userData(UserProfile user) {
 
-                Log.i("getProfile", "LoadUserData");
-
                 eCalBPM = Integer.parseInt(user.getActivityBPM());
                 sleep = Integer.parseInt(user.getSleepStart());
                 wakeup = Integer.parseInt(user.getSleepEnd());
 
-                // 로컬 저장
-                userDetailsEditor.putString("gender", user.getGender());
-                userDetailsEditor.putString("birthday", user.getBirthday());
-                userDetailsEditor.putString("age", user.getAge());
-                userDetailsEditor.putString("name", user.getName());
-                userDetailsEditor.putString("number", user.getPhone());
-                userDetailsEditor.putString("weight", user.getWeight());
-                userDetailsEditor.putString("height", user.getHeight());
-                userDetailsEditor.putString("sleep1", user.getSleepStart());
-                userDetailsEditor.putString("sleep2", user.getSleepEnd());
+                peakCtrl.setEcgToPeakDataFlag(user.getEcgFlag().equals("0"));  // peak(0) : true, ecg(1) : false
 
-                userDetailsEditor.putString("current_date", user.getJoinDate());
-                userDetailsEditor.putString("o_cal", user.getDailyCalorie());
-                userDetailsEditor.putString("o_ecal", user.getDailyActivityCalorie());
-                userDetailsEditor.putString("o_step", user.getDailyStep());
-                userDetailsEditor.putString("o_distance", user.getDailyDistance());
-
-                userDetailsEditor.apply();
             }
 
             @Override
@@ -1024,31 +1024,36 @@ public class HomeFragment extends Fragment {
             case "50":
                 notifyBuilder.setContentTitle(getResources().getString(R.string.arrCnt50));
                 notifyBuilder.setContentText(getResources().getString(R.string.arrCnt50Text));
-                notifyBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+                notifyBuilder.setSmallIcon(R.mipmap.ic_msl_guardian_round);
                 return notifyBuilder;
             case "100":
                 notifyBuilder.setContentTitle(getResources().getString(R.string.arrCnt100));
                 notifyBuilder.setContentText(getResources().getString(R.string.arrCnt100Text));
-                notifyBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+                notifyBuilder.setSmallIcon(R.mipmap.ic_msl_guardian_round);
                 return notifyBuilder;
             case "200":
                 notifyBuilder.setContentTitle(getResources().getString(R.string.arrCnt200));
                 notifyBuilder.setContentText(getResources().getString(R.string.arrCnt200Text));
-                notifyBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+                notifyBuilder.setSmallIcon(R.mipmap.ic_msl_guardian_round);
                 return notifyBuilder;
             case "300":
                 notifyBuilder.setContentTitle(getResources().getString(R.string.arrCnt300));
                 notifyBuilder.setContentText(getResources().getString(R.string.arrCnt300Text));
-                notifyBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+                notifyBuilder.setSmallIcon(R.mipmap.ic_msl_guardian_round);
                 return notifyBuilder;
             default:
                 return notifyBuilder;
         }
     }
 
-    private void heartAttackEvent(String eventTime, String location) {
+    private void heartAttackEvent(String data) {
+        String[] time = data.split("\\|");
+        String messageText = getResources().getString(R.string.occurrenceTime) + time[1] + "\n" + getResources().getString(R.string.occurrenceLocation) + "\n" + time[3];
 
-        HeartAttackCheck = true;
+        if (emergencyDialog != null) {
+            setEmergencyAlertText(messageText);
+            return;
+        }
 
         // 시스템 사운드 재생
         MediaPlayer mediaPlayer = MediaPlayer.create(safeGetActivity(), R.raw.heartattacksound); // res/raw 폴더에 사운드 파일을 넣어주세요
@@ -1058,33 +1063,37 @@ public class HomeFragment extends Fragment {
         // 알림 대화상자 표시
         AlertDialog.Builder builder = new AlertDialog.Builder(safeGetActivity(), R.style.AlertDialogTheme);
 
-        View v = LayoutInflater.from(safeGetActivity()).inflate(R.layout.heartattack_dialog, (LinearLayout) view.findViewById(R.id.layoutDialog));
+        emergencyView = LayoutInflater.from(safeGetActivity()).inflate(R.layout.heartattack_dialog, (LinearLayout) view.findViewById(R.id.layoutDialog));
 
-        builder.setView(v);
+        builder.setView(emergencyView);
 
-        ((TextView) v.findViewById(R.id.heartattack_title)).setText(getResources().getString(R.string.emergency));
-        ((TextView) v.findViewById(R.id.textMessage)).setText(getResources().getString(R.string.occurrenceTime) + eventTime + "\n" + getResources().getString(R.string.occurrenceLocation) + "\n" + location);
-        ((TextView) v.findViewById(R.id.btnOk)).setText(getResources().getString(R.string.ok));
+        ((TextView) emergencyView.findViewById(R.id.heartattack_title)).setText(getResources().getString(R.string.emergency));
+        ((TextView) emergencyView.findViewById(R.id.textMessage)).setText(getResources().getString(R.string.occurrenceTime) + time[1] + "\n" + getResources().getString(R.string.occurrenceLocation) + "\n" + time[3]);
+        ((TextView) emergencyView.findViewById(R.id.btnOk)).setText(getResources().getString(R.string.ok));
 
-        AlertDialog alertDialog = builder.create();
+        emergencyDialog = builder.create();
 
-        v.findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
+        emergencyView.findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                    mediaPlayer.stop();
                 mediaPlayer.release();
                 HeartAttackCheck = false;
-
-                alertDialog.dismiss();
+                emergencyDialog.dismiss();
             }
         });
 
         // 다이얼로그 형태 지우기
-        if (alertDialog.getWindow() != null) {
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        if (emergencyDialog.getWindow() != null) {
+            emergencyDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
 
-        alertDialog.show();
+        emergencyDialog.show();
+    }
+
+    private void setEmergencyAlertText(String message) {
+        ((TextView) emergencyView.findViewById(R.id.heartattack_title)).setText(getResources().getString(R.string.emergency));
+        ((TextView) emergencyView.findViewById(R.id.textMessage)).setText(message);
+        ((TextView) emergencyView.findViewById(R.id.btnOk)).setText(getResources().getString(R.string.ok));
     }
 
     private void arrEvent(int arrCnt) {
@@ -1603,8 +1612,8 @@ public class HomeFragment extends Fragment {
                     if(!(spData.length > 500)) {
                         Log.e("HeartAttackCheck", data);
                         // 응급상황 발생
-                        if (arrCheck && !HeartAttackCheck) // 두번째 호출부터 동작
-                            heartAttackEvent(time[1], time[3]);
+                        if (emergencyFlag == 1) // 두번째 호출부터 동작
+                            heartAttackEvent(data);
                         arrIdx = time[0]; // 다음 Select idx 값 저장
                         continue;
                     }
@@ -1710,7 +1719,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 arrCheck = true; // 두번째 반복부터 알림 뜨게 하는 Flag
-
+                emergencyFlag = 1;
             }
 
             @Override

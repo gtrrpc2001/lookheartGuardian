@@ -7,6 +7,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
+import android.os.Build;
 import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
@@ -57,7 +59,7 @@ public class ForegroundService extends Service {
 
         // Notification 생성
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
-        builder.setSmallIcon(R.mipmap.ic_launcher_round);
+        builder.setSmallIcon(R.mipmap.ic_msl_guardian_round);
         builder.setContentTitle("LOOKHEART GUARDIAN");
         builder.setContentText(getResources().getString(R.string.serviceRunning));
         builder.setOngoing(true);

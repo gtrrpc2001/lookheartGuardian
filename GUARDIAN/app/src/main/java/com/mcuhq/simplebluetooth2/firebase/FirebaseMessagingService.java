@@ -74,7 +74,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 .setContentText(body)
                 .setPriority(NotificationCompat.PRIORITY_MAX) // 최대 우선순위
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE) // 소리와 진동 설정
-                .setSmallIcon(R.mipmap.ic_launcher_round);
+                .setSmallIcon(R.mipmap.ic_msl_guardian_round);
 
         Notification notification = builder.build();
         notificationManager.notify(1610, notification);

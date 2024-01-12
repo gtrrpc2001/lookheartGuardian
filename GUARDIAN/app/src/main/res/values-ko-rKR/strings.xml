@@ -47,7 +47,7 @@
     <string name="eCalValue">0 kcal</string>
     <string name="step">걸음수</string>
     <string name="stepValue">0 걸음</string>
-    <string name="temperature">전극온도</string>
+    <string name="temperature">피부온도</string>
     <string name="temperatureValue">- °C</string>
     <string name="distance">걸음거리</string>
     <string name="distanceValue">0.000 km</string>

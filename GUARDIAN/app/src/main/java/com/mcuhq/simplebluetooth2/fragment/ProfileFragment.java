@@ -19,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.library.lookheartLibrary.server.UserProfileManager;
+import com.library.lookheartLibrary.server.UserProfile;
+
 import com.mcuhq.simplebluetooth2.R;
 import com.mcuhq.simplebluetooth2.profile.profile_1;
 import com.mcuhq.simplebluetooth2.viewmodel.SharedViewModel;
@@ -57,13 +60,13 @@ public class ProfileFragment extends Fragment {
 
         //sharedpreferneces에서 불러오기 (이름,이메일)
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(myEmail, Context.MODE_PRIVATE);
-        String savedText1 = sharedPreferences.getString("name", "");
-        String savedText2 = sharedPreferences.getString("email", "");
-        String savedText3 = sharedPreferences.getString("current_date","");
+        String name = UserProfileManager.getInstance().getUserProfile().getName();
+        String email = UserProfileManager.getInstance().getUserProfile().getEmail();
+        String joinDate = UserProfileManager.getInstance().getUserProfile().getJoinDate();
 
-        profile_name.setText(savedText1);
-        profile_email.setText(savedText2);
-        profile_day.setText(savedText3);
+        profile_name.setText(name);
+        profile_email.setText(email);
+        profile_day.setText(joinDate);
 
 
         // 프래그먼트 전환 버튼

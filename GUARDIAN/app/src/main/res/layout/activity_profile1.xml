@@ -50,58 +50,60 @@
                 android:layout_marginBottom="5dp"
                 android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/name_Label"
+                    android:textStyle="bold"/>
+
+
+                <EditText
+                    android:id="@+id/EditText_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkGray"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/profile_button_background"
+                    android:paddingLeft="5dp"
+                    android:enabled="false"/>
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/guardian_Label"
+                    android:text="@string/profile_phone"
                     android:textStyle="bold"/>
 
                 <EditText
-                    android:id="@+id/profile1_number"
+                    android:id="@+id/EditText_PhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkGray"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@drawable/box1"
-                    android:paddingLeft="5dp" />
+                    android:background="@drawable/profile_button_background"
+                    android:paddingLeft="5dp"
+                    android:enabled="false"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="20dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="@string/profile_HelpInfo3"
-                            android:textColor="@color/LightGrey"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="@string/profile_HelpInfo4"
-                            android:textColor="@color/LightGrey"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -109,19 +111,275 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginBottom="5dp"
-                android:orientation="horizontal"/>
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/profile1_save"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/birthday_Label"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal"
+                        android:background="@drawable/profile_button_background">
+
+                        <ImageButton
+                            android:id="@+id/profile1_calendar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+
+                        <TextView
+                            android:id="@+id/EditText_Birthday"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="10dp"
+                            android:paddingLeft="20dp"
+                            android:background="@null"
+                            android:textStyle="bold"
+                            android:textColor="@color/darkGray"
+                            android:layout_gravity="center"
+                            android:enabled="false"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="15"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/age"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/TextView_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:paddingLeft="5dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/darkGray"
+                        android:background="@drawable/profile_button_background"
+                        android:enabled="false"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/profile_save"
-                android:text="@string/profile_save"
-                android:textColor="@color/WHITE"/>
+                android:layout_height="60dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/gender"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/TextView_Gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="0dp"
+                        android:textSize="16dp"
+                        android:paddingLeft="5dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/darkGray"
+                        android:background="@drawable/profile_button_background"
+                        android:enabled="false"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/height"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/EditText_Height"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/darkGray"
+                        android:background="@drawable/profile_button_background"
+                        android:enabled="false"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/weight"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/EditText_Weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
+                        android:paddingLeft="5dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/darkGray"
+                        android:background="@drawable/profile_button_background"
+                        android:enabled="false"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="@string/profile_sleep"
+                            android:textStyle="bold"/>
+
+                        <EditText
+                            android:id="@+id/EditText_BedTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="5dp"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/darkGray"
+                            android:background="@drawable/profile_button_background"
+                            android:paddingLeft="5dp"
+                            android:enabled="false"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="@string/profile_wakeup"
+                            android:textStyle="bold"/>
+
+                        <EditText
+                            android:id="@+id/EditText_Wakeup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="20dp"
+                            android:background="@drawable/profile_button_background"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/darkGray"
+                            android:paddingLeft="5dp"
+                            android:enabled="false"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -130,3 +388,4 @@
 
     </ScrollView>
 </FrameLayout>
+
