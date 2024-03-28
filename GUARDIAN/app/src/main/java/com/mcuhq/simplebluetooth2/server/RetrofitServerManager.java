@@ -18,9 +18,7 @@ import com.library.lookheartLibrary.server.UserProfile;
 import com.library.lookheartLibrary.server.UserProfileManager;
 
 public class RetrofitServerManager {
-
-//    private static final String BASE_URL = "http://121.152.22.85:40081/"; // TEST Address
-    private static final String BASE_URL = "http://121.152.22.85:40080/"; // Real Address
+    private static final String BASE_URL = "";
     private static RetrofitService apiService;
 
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
